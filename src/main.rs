@@ -9,9 +9,9 @@ fn main() {
     let dist = &args[2];
     println!("convert: {} ==> {}", src, dist);
     let start = Instant::now();
-    let png = imagefmt::read(src, ColFmt::RGBA).unwrap();
-    println!("Image Info: {:?}", png);
-    imagefmt::write(dist, png.w, png.h, png.fmt, &png.buf, ColType::ColorAlpha).unwrap();
+    let src_img = imagefmt::read(src, ColFmt::Auto).unwrap();
+    println!("Image Info: {:?}", src_img);
+    imagefmt::write(dist, src_img.w, src_img.h, src_img.fmt, &src_img.buf, ColType::ColorAlpha).unwrap();
     let duration = start.elapsed();
     println!("imagefmt time: {:?}", duration);
 }
