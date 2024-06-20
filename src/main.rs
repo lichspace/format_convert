@@ -2,7 +2,7 @@ use std::env;
 use std::path::Path;
 use std::time::Instant;
 extern crate imagefmt;
-use imagefmt::{ColFmt, ColType};
+use imagefmt::{ColFmt, ColType, Image};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -21,9 +21,7 @@ fn main() {
 
     if src_img.fmt == ColFmt::RGBA && extension == "png" {
         println!("PNG RGBA remove alpha");
-        let w = src_img.w;
-        let h = src_img.h;
-
+        let Image { w, h, .. } = src_img;
         for y in 0..h {
             for x in 0..w {
                 let index = (y * w + x) * 4;
@@ -32,7 +30,6 @@ fn main() {
                     buf[index + 0] = 255;
                     buf[index + 1] = 255;
                     buf[index + 2] = 255;
-                    buf[index + 3] = 255;
                 }
             }
         }
@@ -48,5 +45,5 @@ fn main() {
     )
     .unwrap();
     let duration = start.elapsed();
-    println!("imagefmt time: {:?}", duration);
+    println!("convert time: {:?}", duration);
 }
