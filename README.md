@@ -1,5 +1,7 @@
 png转tga， 或者tga转png
 
+### 打包
+cargo build --release
 
 
 ```rust

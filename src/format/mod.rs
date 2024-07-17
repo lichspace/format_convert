@@ -3,7 +3,7 @@ use std::time::Instant;
 extern crate imagefmt;
 use imagefmt::{ColFmt, ColType, Image};
 
-pub fn convert(src: &String, dist: &String) {
+pub fn convert(src: &str, dist: &str) {
     let extension = Path::new(&src)
         .extension()
         .map(|ext| ext.to_string_lossy())

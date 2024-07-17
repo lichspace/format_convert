@@ -1,19 +1,48 @@
-use std::env;
 extern crate imagefmt;
 mod format;
 mod merge;
+use clap::{Arg, Command, ArgAction};
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    // println!("I got {:?} arguments: {:?}.", args.len() - 1, &args[1..]);
+    let matches = Command::new("convert")
+        .about("picture process")
+        .arg(
+            Arg::new("input")
+                .help("输入文件")
+                .long("input")
+                .short('i')
+                .value_delimiter(',')
+                .required(true),
+        )
+        .arg(
+            Arg::new("output")
+                .help("输出地址")
+                .long("output")
+                .short('o')
+                .required(true),
+        )
+        .arg(Arg::new("over").help("叠加").long("over").action(ArgAction::SetTrue))
+        .get_matches();
 
-    let src = &args[1];
-    let src2: &String = &args[2];
+    let inputs = matches
+        .get_many::<String>("input")
+        .unwrap()
+        .map(|v| v.as_str())
+        .collect::<Vec<_>>();
 
-    if args.len() > 3 && &args[3] == "--over" {
-        merge::over(&src, &src2, &args[4]);
+    // println!("{:?}", inputs);
+
+    // 获取输入值
+    let output = matches.get_one::<String>("output").unwrap();
+    // println!("{:?}", output);
+
+    let &over = matches.get_one::<bool>("over").unwrap();
+    let src: &str = inputs[0];
+
+    if over && inputs.len() >= 2 {
+        merge::over_multi(inputs, output);
     } else {
-        println!("convert {} => {}", src, src2);
-        format::convert(&src, &src2);
+        println!("convert {} => {}", src, output);
+        format::convert(src, output);
     }
 }
