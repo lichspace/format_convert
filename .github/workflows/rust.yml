@@ -59,7 +59,7 @@ jobs:
           fi
  
           # The built binary output location
-          BIN_OUTPUT="./target/release/${PROJECT_NAME}${BIN_SUFFIX}"
+          BIN_OUTPUT="./target/${{ matrix.platform.target }}/${{ matrix.platform.bin }}"
  
           # Define a better name for the final binary
           BIN_RELEASE="${PROJECT_NAME}-${{ matrix.name }}${BIN_SUFFIX}"
@@ -67,12 +67,12 @@ jobs:
 
           pwd
           ls -la
-          ls -la "./target"
+          ls -la "./target/${{ matrix.platform.target }}"
           ls "${BIN_OUTPUT}"
             
           mkdir download
           # Move the built binary where you want it
-          mv "${BIN_OUTPUT}" "./download/${BIN_RELEASE}"
+          mv "${BIN_OUTPUT}" "./download/${{ matrix.platform.target }}"
       - name: upload build exe
         uses: actions/upload-artifact@v4
         with:
