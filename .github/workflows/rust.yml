@@ -48,7 +48,7 @@ jobs:
           command: ${{ matrix.platform.command }}
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
-          strip: false
+          strip: true
       - name: Release Binary
         shell: bash
         run: |
@@ -66,8 +66,8 @@ jobs:
           BIN_RELEASE_VERSIONED="${PROJECT_NAME}-${{ github.ref_name }}-${{ matrix.name }}${BIN_SUFFIX}"
 
           pwd
-          ls -l
-          ls -l "./target/release"
+          ls -la
+          ls -la "./target/release"
           ls "${BIN_OUTPUT}"
             
           mkdir download
