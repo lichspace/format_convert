@@ -52,6 +52,7 @@ jobs:
       - name: Release Binary
         shell: bash
         run: |
+          PROJECT_NAME="format_convert"
           BIN_SUFFIX=""
           if [[ "${{ matrix.platform.os }}" == "windows-latest" ]]; then
             BIN_SUFFIX=".exe"
