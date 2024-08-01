@@ -66,6 +66,7 @@ jobs:
           BIN_RELEASE_VERSIONED="${PROJECT_NAME}-${{ github.ref_name }}-${{ matrix.name }}${BIN_SUFFIX}"
 
           pwd
+          ls -l
           ls -l "./target/release"
           ls "${BIN_OUTPUT}"
             
