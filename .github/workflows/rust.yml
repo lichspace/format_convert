@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: |
           BIN_SUFFIX=""
-          if [[ "${{ matrix.runner }}" == "windows-latest" ]]; then
+          if [[ "${{ matrix.platform.os }}" == "windows-latest" ]]; then
             BIN_SUFFIX=".exe"
           fi
  
@@ -64,9 +64,9 @@ jobs:
           BIN_RELEASE="${PROJECT_NAME}-${{ matrix.name }}${BIN_SUFFIX}"
           BIN_RELEASE_VERSIONED="${PROJECT_NAME}-${{ github.ref_name }}-${{ matrix.name }}${BIN_SUFFIX}"
 
-          run: |
-            pwd
-            ls "${BIN_OUTPUT}"
+          pwd
+          ls "${BIN_OUTPUT}"
+            
  
           # Move the built binary where you want it
           # mv "${BIN_OUTPUT}" "./<your-destination>/${BIN_RELEASE}"
