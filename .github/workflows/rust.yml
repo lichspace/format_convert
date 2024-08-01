@@ -59,24 +59,24 @@ jobs:
           fi
  
           # The built binary output location
-          BIN_OUTPUT="./target/${{ matrix.target }}/release/${PROJECT_NAME}${BIN_SUFFIX}"
+          BIN_OUTPUT="./target/release/${PROJECT_NAME}${BIN_SUFFIX}"
  
           # Define a better name for the final binary
           BIN_RELEASE="${PROJECT_NAME}-${{ matrix.name }}${BIN_SUFFIX}"
           BIN_RELEASE_VERSIONED="${PROJECT_NAME}-${{ github.ref_name }}-${{ matrix.name }}${BIN_SUFFIX}"
 
           pwd
-          ls "${BIN_OUTPUT}"
+          ls "./target/release"
             
  
           # Move the built binary where you want it
           mv "${BIN_OUTPUT}" "./download/${BIN_RELEASE}"
-      - name: upload build
+      - name: upload build exe
         uses: actions/upload-artifact@v4
         with:
           name: build-lib
           path: download
-      - name: Download a single artifact
+      - name: Download exe
         uses: actions/download-artifact@v4
         with:
           name: build-lib
