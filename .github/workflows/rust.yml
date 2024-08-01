@@ -75,8 +75,8 @@ jobs:
         with:
           name: ${{ matrix.platform.name }}
           path: download
-      - name: download-exe
-        uses: actions/download-artifact@v4
-        with:
-          name: build-lib
+      # - name: download-exe
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-lib
 
