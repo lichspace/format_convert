@@ -59,7 +59,7 @@ jobs:
           fi
  
           # The built binary output location
-          BIN_OUTPUT="./target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}"
+          BIN_OUTPUT="./target/${{ matrix.platform.target }}/release/format_convert${BIN_SUFFIX}"
  
           # Define a better name for the final binary
           BIN_RELEASE="${PROJECT_NAME}-${{ matrix.name }}${BIN_SUFFIX}"
@@ -67,8 +67,9 @@ jobs:
 
           pwd
           ls -la
-          echo release
+          echo -------release
           ls -la "./target/${{ matrix.platform.target }}/release"
+          echo -------release-exe
           ls "${BIN_OUTPUT}"
             
           mkdir download
