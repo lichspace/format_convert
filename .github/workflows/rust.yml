@@ -67,7 +67,7 @@ jobs:
 
           pwd
           ls -la
-          ls -la "./target/release"
+          ls -la "./target"
           ls "${BIN_OUTPUT}"
             
           mkdir download
