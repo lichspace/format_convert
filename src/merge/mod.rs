@@ -1,25 +1,16 @@
 extern crate imagefmt;
-use std::time::Instant;
+use image::{ImageBuffer, Rgba};
 use imagefmt::{ColFmt, ColType};
 
-pub fn over_multi(inputs: Vec<&str>, dist: &str) {
-    let start = Instant::now();
+pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
     let mut arr = inputs
         .iter()
         .map(|s| image::open(s).unwrap().into_rgba8())
         .enumerate();
 
     let (_, mut bottom) = arr.next().unwrap();
-
-    // 底图变为白色
-    for p in bottom.pixels_mut() {
-        if p[3] == 0 {
-            p[0] = 255;
-            p[1] = 255;
-            p[2] = 255;
-            p[3] = 255;
-        }
-    }
+    
+    bottom = set_background(bottom.clone(), transparent);
 
     while let Some((_, mut top)) = arr.next() {
         for p in top.pixels_mut() {
@@ -43,10 +34,23 @@ pub fn over_multi(inputs: Vec<&str>, dist: &str) {
         h as usize,
         ColFmt::RGBA,
         buf,
-        ColType::Color,
+        ColType::ColorAlpha,
     )
     .unwrap();
+}
 
-    let duration = start.elapsed();
-    println!("over_multi time: {:?}", duration);
+
+pub fn set_background(mut image: ImageBuffer<Rgba<u8>, Vec<u8>>, transparent: bool)->ImageBuffer<Rgba<u8>, Vec<u8>>{
+    for p in image.pixels_mut() {
+        if p[3] == 0 {
+            p[0] = 255;
+            p[1] = 255;
+            p[2] = 255;
+            p[3] = if transparent { 0 } else { 255 };
+        } else if p[0] == 255 && p[1] == 255 && p[2] == 255 {
+            p[3] = if transparent { 0 } else { 255 };
+        }
+    }
+
+    return image;
 }

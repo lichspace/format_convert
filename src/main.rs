@@ -2,6 +2,7 @@ extern crate imagefmt;
 mod format;
 mod merge;
 use clap::{Arg, Command, ArgAction};
+use std::time::Instant;
 
 fn main() {
     let matches = Command::new("convert")
@@ -21,7 +22,8 @@ fn main() {
                 .short('o')
                 .required(true),
         )
-        .arg(Arg::new("over").help("叠加").long("over").action(ArgAction::SetTrue))
+        .arg(Arg::new("transparent").help("是否透明背景").long("transparent").action(ArgAction::SetTrue))
+        .arg(Arg::new("over").help("是否叠加").long("over").action(ArgAction::SetTrue))
         .get_matches();
 
     let inputs = matches
@@ -34,15 +36,20 @@ fn main() {
 
     // 获取输入值
     let output = matches.get_one::<String>("output").unwrap();
-    // println!("{:?}", output);
 
     let &over = matches.get_one::<bool>("over").unwrap();
+    let &transparent = matches.get_one::<bool>("transparent").unwrap();
     let src: &str = inputs[0];
 
-    if over && inputs.len() >= 2 {
-        merge::over_multi(inputs, output);
+    let start = Instant::now();
+
+    if over {
+        merge::over_multi(inputs, output, transparent);
     } else {
         println!("convert {} => {}", src, output);
-        format::convert(src, output);
+        format::convert(src, output, transparent);
     }
+
+    let duration = start.elapsed();
+    println!("convert time: {:?}", duration);
 }
