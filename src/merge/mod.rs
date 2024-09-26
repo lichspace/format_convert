@@ -1,6 +1,6 @@
 extern crate imagefmt;
-use image::{ImageBuffer, Rgba};
 use imagefmt::{ColFmt, ColType};
+use super::utils::set_background;
 
 pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
     let mut arr = inputs
@@ -37,20 +37,4 @@ pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
         ColType::ColorAlpha,
     )
     .unwrap();
-}
-
-
-pub fn set_background(mut image: ImageBuffer<Rgba<u8>, Vec<u8>>, transparent: bool)->ImageBuffer<Rgba<u8>, Vec<u8>>{
-    for p in image.pixels_mut() {
-        if p[3] == 0 {
-            p[0] = 255;
-            p[1] = 255;
-            p[2] = 255;
-            p[3] = if transparent { 0 } else { 255 };
-        } else if p[0] == 255 && p[1] == 255 && p[2] == 255 {
-            p[3] = if transparent { 0 } else { 255 };
-        }
-    }
-
-    return image;
 }

@@ -1,6 +1,7 @@
 extern crate imagefmt;
 mod format;
 mod merge;
+mod utils;
 use clap::{Arg, Command, ArgAction};
 use std::time::Instant;
 
