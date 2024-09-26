@@ -27,8 +27,9 @@ pub fn save(dist: &str, ibuf: ImageBuffer<Rgba<u8>, Vec<u8>>) {
     println!("save format: {}", ext.unwrap());
     match ext {
         Option::Some("tga") => {
-            println!("tag file");
             let buf = ibuf.as_raw();
+
+            // can open in paintman
             imagefmt::write(
                 dist,
                 w as usize,

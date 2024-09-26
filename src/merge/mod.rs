@@ -1,5 +1,6 @@
 extern crate imagefmt;
-use imagefmt::{ColFmt, ColType};
+use crate::utils::save;
+
 use super::utils::set_background;
 
 pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
@@ -9,7 +10,7 @@ pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
         .enumerate();
 
     let (_, mut bottom) = arr.next().unwrap();
-    
+
     bottom = set_background(bottom.clone(), transparent);
 
     while let Some((_, mut top)) = arr.next() {
@@ -22,19 +23,5 @@ pub fn over_multi(inputs: Vec<&str>, dist: &str, transparent: bool) {
         image::imageops::overlay(&mut bottom, &top, 0, 0);
     }
 
-    // use image-rs save
-    // bottom.save(dist).unwrap();
-
-    //  why: can open in paintman
-    let buf = bottom.as_raw();
-    let (w, h) = bottom.dimensions();
-    imagefmt::write(
-        dist,
-        w as usize,
-        h as usize,
-        ColFmt::RGBA,
-        buf,
-        ColType::ColorAlpha,
-    )
-    .unwrap();
+    save(dist, bottom);
 }
